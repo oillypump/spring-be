@@ -1,0 +1,80 @@
+package rodl.projecttigabe.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import rodl.projecttigabe.entities.exam.Category;
+import rodl.projecttigabe.entities.exam.Quiz;
+import rodl.projecttigabe.services.QuizService;
+
+@RestController
+@CrossOrigin("*")
+@RequestMapping(value ="/quiz")
+public class QuizController {
+    
+    @Autowired
+    private QuizService quizService;
+
+    
+    // add quiz service
+    @PostMapping(value = "/")
+    public ResponseEntity<Quiz> addQuiz(@RequestBody Quiz quiz) {
+        return ResponseEntity.ok(this.quizService.addQuiz(quiz));
+    }
+
+    // update quiz service
+    @PutMapping(value ="/")
+    public ResponseEntity<Quiz> updateQuiz(@RequestBody Quiz quiz) {
+        return ResponseEntity.ok(this.quizService.updateQuiz(quiz));
+    }
+    
+    // get quizzes
+    @GetMapping(value = "/")
+    public ResponseEntity<?> getQuizzes() {
+        return ResponseEntity.ok(this.quizService.getQuizzes());
+    }
+
+    // get single quiz
+    @GetMapping(value = "/{qid}")
+    public Quiz quiz(@PathVariable("qid") Long qid) {
+        return this.quizService.getQuiz(qid);
+    } 
+
+    // delete the quiz
+    @DeleteMapping(value = "/{qid}")
+    public void deleteQuiz(@PathVariable("qid") Long qid) {
+        this.quizService.deleteQuiz(qid);
+    }
+
+    @GetMapping("/category/{cid}")
+    public List<Quiz> getQuizzesOfCategory(@PathVariable("cid") Long cid) {
+        Category category = new Category();
+        category.setCid(cid);
+        return this.quizService.getQuizzesOfCategory(category);
+    }
+
+    // get active quizzes
+    @GetMapping(value = "/active/")
+    public List<Quiz> getActiveQuizzes() {
+        return this.quizService.getActiveQuizzes();
+    }
+    
+    // get active quizzes of category
+    @GetMapping( value = "/category/active/{cid}")
+    public List<Quiz> getActiveQuizzesOfCategory(@PathVariable ("cid") Long cid) {
+        Category category = new Category();
+        category.setCid(cid);
+        return this.quizService.getActiveQuizzesOfCategory(category);
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ProjecttigaBeApplication<projecttiga-be>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "rodl.projecttigabe.ProjecttigaBeApplication",
+            "projectName": "projecttiga-be",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
